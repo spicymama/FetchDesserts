@@ -17,6 +17,9 @@ class DessertController {
     static func fetchDesserts(completion: @escaping (Result<[Dessert], LocalError>) -> Void) {
         var desserts: [Dessert] = []
         var newDes = Dessert(name: "", imageURL: "", dessertID: "")
+        
+        
+        
         guard let dessertsURL = URL(string: "https://www.themealdb.com/api/json/v1/1/filter.php?c=Dessert") else {return completion(.failure(.invalidURL))}
         URLSession.shared.dataTask(with: dessertsURL) { (data, response, error) in
             if let error = error {
@@ -27,7 +30,6 @@ class DessertController {
             }
             guard let data = data else {return completion(.failure(.noData))}
             do {
-                
                 let TopObject = try JSONDecoder().decode(Desserts.self, from: data)
                 let SecondObject = TopObject.meals
                 for i in SecondObject {
@@ -56,38 +58,33 @@ class DessertController {
                 
                 let TopObject = try JSONDecoder().decode(Recipe.self, from: data)
                 let SecondObject = TopObject.meals
-         
+                
                 for i in SecondObject {
-                    var ingredients = [i.ingredient1, i.ingredient2, i.ingredient3, i.ingredient4, i.ingredient5, i.ingredient6, i.ingredient7, i.ingredient8, i.ingredient9, i.ingredient10, i.ingredient11, i.ingredient12, i.ingredient13, i.ingredient14, i.ingredient15, i.ingredient16, i.ingredient17, i.ingredient18, i.ingredient19, i.ingredient20]
-                    var measurements = [i.measurement1, i.measurement2, i.measurement3, i.measurement4, i.measurement5, i.measurement6, i.measurement7, i.measurement8, i.measurement9, i.measurement10, i.measurement11, i.measurement12, i.measurement13, i.measurement14, i.measurement15, i.measurement16, i.measurement17, i.measurement18, i.measurement19, i.measurement20]
                     
-                    for i in ingredients {
-                        if i == "" {
-                            ingredients.remove(at: ingredients.firstIndex(of: i)!)
+                    var ingredients: [Any] = [i.ingredient1, i.ingredient2, i.ingredient3, i.ingredient4, i.ingredient5, i.ingredient6, i.ingredient7, i.ingredient8, i.ingredient9, i.ingredient10, i.ingredient11, i.ingredient12, i.ingredient13, i.ingredient14, i.ingredient15, i.ingredient16, i.ingredient17, i.ingredient18, i.ingredient19, i.ingredient20]
+                    var measurements: [Any] = [i.measurement1, i.measurement2, i.measurement3, i.measurement4, i.measurement5, i.measurement6, i.measurement7, i.measurement8, i.measurement9, i.measurement10, i.measurement11, i.measurement12, i.measurement13, i.measurement14, i.measurement15, i.measurement16, i.measurement17, i.measurement18, i.measurement19, i.measurement20]
+                    
+                    var finIngredients: [String] = []
+                    var finMeasurements: [String] = []
+                    
+                    for i in ingredients.compactMap({$0}) {
+                        if i is String {
+                            
+                            finIngredients.append(i as! String)
                         }
                     }
-                    for i in measurements {
-                        if i == "" {
-                            measurements.remove(at: measurements.firstIndex(of: i)!)
+                    for i in measurements.compactMap({$0}) {
+                        if i is String {
+                            finMeasurements.append(i as! String)
                         }
                     }
-                newRec = FinalRecipe(name: i.name, instructions: i.instructions, ingredients: ingredients, measurements: measurements)
+                    
+                    newRec = FinalRecipe(name: i.name, instructions: i.instructions, ingredients: finIngredients, measurements: finMeasurements)
                 }
-            completion(.success(newRec))
+                completion(.success(newRec))
             } catch {
-            completion(.failure(.thrownError(error)))
-        }
+                completion(.failure(.thrownError(error)))
+            }
         }.resume()
-        
     }
-    
-   
-    
-    
-    
-    
-    
-    
-    
-    
 }

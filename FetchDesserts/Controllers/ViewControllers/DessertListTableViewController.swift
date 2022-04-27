@@ -9,15 +9,14 @@ import UIKit
 
 class DessertListTableViewController: UITableViewController {
     var refresh: UIRefreshControl = UIRefreshControl()
+    var desserts: [Dessert] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViews()
-        
     }
-    var desserts: [Dessert] = []
     
     func updateViews() {
-        
         FetchDesserts.DessertController.fetchDesserts { result in
             DispatchQueue.main.async {
                 switch result {
@@ -46,23 +45,18 @@ class DessertListTableViewController: UITableViewController {
     }
     
     // MARK: - Table view data source
-    
-    
-    
+        
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return desserts.count
     }
-    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "desCell", for: indexPath) as? DessertTableViewCell else {return UITableViewCell()}
         let dessert = desserts[indexPath.row]
         cell.dessert = dessert
         
-        
         return cell
     }
-    
     
     // MARK: - Navigation
     
@@ -75,7 +69,4 @@ class DessertListTableViewController: UITableViewController {
             destinationVC.selectedDessert = selectedDessert
         }
     }
-    
-    
-     
 }

@@ -9,22 +9,21 @@ import UIKit
 
 class DetailViewController: UIViewController {
     static var shared = DetailViewController()
-    var selectedDessert: Dessert?
-    var newRecipe: FinalRecipe?
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var instructionBox: UITextView!
     @IBOutlet weak var measurementTextView: UITextView!
     @IBOutlet weak var ingredientTextView: UITextView!
     
+    var selectedDessert: Dessert?
+    var newRecipe: FinalRecipe?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViews()
-        
     }
     
     func updateViews() {
-        
         DessertController.fetchRecipe { result in
             DispatchQueue.main.async {
                 switch result {
@@ -42,11 +41,7 @@ class DetailViewController: UIViewController {
                 case .failure(let error):
                     print("Error in \(#function) : \(error.localizedDescription) \n---\n \(error)")
                 }
-                
             }
-            
-        
+        }
     }
-    }
-   
 }

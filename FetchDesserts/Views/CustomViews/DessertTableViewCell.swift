@@ -19,5 +19,4 @@ class DessertTableViewCell: UITableViewCell {
             dessertName.text = dessert?.name
         }
     }
-
 }
