@@ -8,6 +8,7 @@
 import UIKit
 
 class DessertListTableViewController: UITableViewController {
+//implementing refresh control to load the view when the project is first opened
     var refresh: UIRefreshControl = UIRefreshControl()
     var desserts: [Dessert] = []
     
@@ -20,8 +21,8 @@ class DessertListTableViewController: UITableViewController {
         FetchDesserts.DessertController.fetchDesserts { result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let newDes):
-                    self.desserts = newDes
+                case .success(let dessert):
+                    self.desserts = dessert
                 case .failure(let error):
                     print("Error in \(#function) : \(error.localizedDescription) \n---\n \(error)")
                 }
@@ -29,14 +30,7 @@ class DessertListTableViewController: UITableViewController {
             self.loadData()
         }
     }
-    
-    func setupViews() {
-        refresh.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        tableView.addSubview(refresh)
-        self.tableView.reloadData()
-    }
-    
-    
+   
     @objc func loadData() {
         DispatchQueue.main.async {
             self.tableView.reloadData()

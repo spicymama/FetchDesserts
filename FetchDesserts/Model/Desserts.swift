@@ -22,6 +22,7 @@ struct Desserts: Codable {
         }
     }
 }
+//I wanted to find a more concise way to build this struct, however this is what I managed to make work
 struct Recipe: Codable {
     let meals: [RecipeInfo]
     
@@ -121,22 +122,11 @@ struct Dessert {
     let name: String
     let imageURL: String
     let dessertID: String
-    init(name: String, imageURL: String, dessertID: String) {
-        self.name = name
-        self.imageURL = imageURL
-        self.dessertID = dessertID
-    }
-    
 }
+
 struct FinalRecipe {
     let name: String
     let instructions: String
     let ingredients: [String]
     let measurements: [String]
-    init(name: String, instructions: String, ingredients: [String], measurements: [String]) {
-        self.name = name
-        self.instructions = instructions
-        self.ingredients = ingredients
-        self.measurements = measurements
-    }
 }

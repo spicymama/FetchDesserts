@@ -8,7 +8,6 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-    static var shared = DetailViewController()
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var instructionBox: UITextView!
@@ -32,6 +31,7 @@ class DetailViewController: UIViewController {
                     self.newRecipe = newRec
                     self.nameLabel.text = newRec.name
                     self.instructionBox.text = newRec.instructions
+//included newline after each ingredient/ measurement to streamline formatting
                     for i in self.newRecipe!.ingredients {
                         self.ingredientTextView.text.append(i + "\n")
                     }
