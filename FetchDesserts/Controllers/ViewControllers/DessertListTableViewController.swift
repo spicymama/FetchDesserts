@@ -31,7 +31,7 @@ class DessertListTableViewController: UITableViewController {
         }
     }
    
-    @objc func loadData() {
+    func loadData() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
             self.refresh.endRefreshing()
